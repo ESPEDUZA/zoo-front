@@ -1,0 +1,98 @@
+/* Header.css */
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 6rem 4rem;
+    background-color: #f5f5f5; /* Fond blanc */
+
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    height: 8rem;
+    width: 8rem;
+    background-color: transparent !important;
+
+
+}
+
+.auth-button {
+    padding: 10px 20px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: 4rem;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.navbar a {
+    margin: 0 20px;
+    text-decoration: none;
+    color: black;
+    border: 2px solid green; /* Bordure verte */
+    border-radius: 15px; /* Bords arrondis */
+    padding: 10px 20px; /* Espace autour du texte */
+    background-color: #f5f5f5; /* Fond blanc */
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out; /* Animation lors du survol */
+}
+
+.navbar a:hover {
+    background-color: green; /* Au survol, le fond devient vert */
+    color: white; /* Le texte devient blanc */
+}
+
+.button {
+    height: 50px;
+    width: 200px;
+    position: relative;
+    background-color: transparent;
+    cursor: pointer;
+    border: 2px solid #252525;
+    overflow: hidden;
+    border-radius: 30px;
+    color: #333;
+    transition: all 0.5s ease-in-out;
+}
+
+.btn-txt {
+    z-index: 1;
+    font-weight: 800;
+    letter-spacing: 4px;
+}
+
+.type1::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: all 0.5s ease-in-out;
+    background-color: #333;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.button:hover {
+    box-shadow: 1px 1px 200px greenyellow;
+    color: green;
+    border: none;
+}
+
+.type1:hover::after {
+    visibility: visible;
+    transform: scale(100) translateX(2px);
+}
