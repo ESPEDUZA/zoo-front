@@ -1,0 +1,46 @@
+/* Styles généraux pour l'ensemble du site */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Styles pour le conteneur de toutes les cartes */
+.ZooSpaces {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px; /* Espace entre les cartes */
+}
+
+/* Styles pour chaque carte individuelle */
+.panel {
+    flex: 1 1 300px; /* Chaque carte aura une largeur initiale de 300px */
+    max-width: 300px; /* Mais ne dépassera jamais 300px */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.panel:hover {
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.panel h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.panel p {
+    margin-bottom: 10px;
+}
+
+.panel img {
+    width: 100%; /* Pour que l'image prenne toute la largeur de la carte */
+    height: auto; /* Pour conserver les proportions de l'image */
+    object-fit: cover; /* Pour couvrir toute la zone sans déformer l'image */
+    border-radius: 5px; /* Pour adoucir les bords de l'image */
+    margin-bottom: 10px; /* Pour ajouter un peu d'espace sous l'image */
+}

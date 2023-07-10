@@ -1,0 +1,49 @@
+.space-detail {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 20px;
+    width: 80%;
+}
+
+.space-detail .animal {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    padding: 20px;
+    background-color: #eef5db;
+    border-radius: 8px;
+}
+
+
+.space-detail .animal img {
+    width: 100%;
+    height: auto;
+}
+
+.space-detail .details {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    padding: 20px;
+    background-color: #eef5db;
+    border-radius: 8px;
+}
+
+.space-detail .details p {
+    color: #4b5320;
+}
+
+.space-detail .details button {
+    background-color: #4b5320;
+    color: #eef5db;
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.space-detail .details button:hover {
+    background-color: #37530e;
+}

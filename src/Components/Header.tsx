@@ -4,7 +4,7 @@ import './Header.css'; // importez votre fichier css
 import AuthModal from './AuthModal';
 
 type HeaderProps = {
-    onAuthClick: () => void; // cette fonction sera appelée lorsque le bouton d'authentification sera cliqué
+    onAuthClick: () => void;
 };
 
 const Header: React.FC<HeaderProps> = ({ onAuthClick }) => {
@@ -32,10 +32,11 @@ const Header: React.FC<HeaderProps> = ({ onAuthClick }) => {
             </div>
 
             <nav className="navbar">
-                <a href="/section1">Section 1</a>
-                <a href="/section2">Section 2</a>
-                <a href="/section3">Section 3</a>
-                <a href="/section4">Section 4</a>
+                <a href="/About">A propos</a>
+                <a href="/Tickets">Tickets</a>
+                <a href="/Zoo">  ZOO  </a>
+                <a href="/Acoount">Mon compte</a>
+                <a href="/Spaces">Espaces</a>
             </nav>
         </header>
     );
