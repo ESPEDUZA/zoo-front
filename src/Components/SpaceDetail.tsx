@@ -34,7 +34,7 @@ function SpaceDetail() {
         <div className="space-detail">
             <div className="details">
                 <h2>{space.name}</h2>
-                <p>{space.description}</p>
+                <p className="description">{space.description}</p>
                 <p>Type: {space.type}</p>
                 <p>Capacity: {space.capacity}</p>
                 <p>Duration: {space.duration}</p>

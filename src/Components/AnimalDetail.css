@@ -1,0 +1,41 @@
+/* AnimalDetail.css */
+
+.animal-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8rem;
+    margin-left: 12rem;
+    margin-right: 12rem;
+    padding: 2em;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+.animal-detail-column {
+    flex-basis: 45%; /* Adjust as needed */
+}
+
+.animal-detail-image {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+.treatment-records {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.treatment-record {
+    margin-bottom: 1em;
+    padding: 1em;
+    border-radius: 5px;
+    background-color: #e6e6e6;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.treatment-record-empty {
+    text-align: center;
+    color: #999;
+}
