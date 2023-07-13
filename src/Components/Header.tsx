@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ onAuthClick }) => {
                 <a href="/About">A propos</a>
                 <a href="/Tickets">Tickets</a>
                 <a href="/Zoo">  ZOO  </a>
-                <a href="/Acoount">Mon compte</a>
+                <a href="/Account">Mon compte</a>
                 <a href="/Spaces">Espaces</a>
             </nav>
         </header>

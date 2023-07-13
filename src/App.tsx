@@ -6,6 +6,7 @@ import HomePage from "./Components/HomePage";
 import ZooSpaces from "./Components/ZooSpaces";
 import SpaceDetail from "./Components/SpaceDetail";
 import AnimalDetail from "./Components/AnimalDetail";
+import Account from "./Components/Account";
 
 function App() {
     const handleAuthClick = () => {
@@ -21,9 +22,9 @@ function App() {
                 <Route path="/spaces" element={<ZooSpaces/>}/>
                 <Route path="/spaces/:id" element={<SpaceDetail />}/>
                 <Route path="/animals/:id" element={<AnimalDetail />} />
+                <Route path="/Account" element={<Account/>}/>
             </Routes>
-
-            <Footer />
+            <Footer/>
         </Router>
     );
 }
