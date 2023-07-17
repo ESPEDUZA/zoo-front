@@ -24,7 +24,6 @@ function App() {
         <Route path="/animals/:id" element={<AnimalDetail />} />
         <Route path="/About" element={<About />} />
       </Routes>
-
       <Footer />
     </Router>
   );
