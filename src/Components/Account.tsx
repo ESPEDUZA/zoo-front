@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-interface User {
-    _id: string;
-    login: string;
-    password: string;
-    role: string;
-}
+import {User} from "../Models/User";
+import './Account.css'
 
 const Account: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
@@ -52,10 +48,23 @@ const Account: React.FC = () => {
     }
 
     return (
-        <div>
-            <h1>Mon compte</h1>
-            <p>Login: {user.login}</p>
-            <p>Rôle: {user.role}</p>
+        <div className="container">
+            <div className="user-info">
+                <h1>Mon compte</h1>
+                <p>Login: {user.login}</p>
+                <p>Rôle: {user.role}</p>
+            </div>
+            <div className="ticket-info">
+                <h1>Mes billets</h1>
+                {user.tickets.map((ticket, index) => (
+                    <div key={index} className="ticket">
+                        <p>ID du billet: {ticket.id}</p>
+                        <p>Type de billet: {ticket.type}</p>
+                        <p>Date d'expiration: {ticket.expirationDate.toString()}</p>
+                        <p>Espaces accessibles: {ticket.accessibleSpaces.join(", ")}</p>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

@@ -8,8 +8,31 @@ function ZooSpaces() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('http://localhost:3000/spaces/')
-            .then(response => response.json())
+        // Retrieve the token from the cookie
+        const cookieRow = document.cookie.split('; ').find(row => row.startsWith('token'));
+        let token: string | undefined;
+
+        if (cookieRow) {
+            token = cookieRow.split('=')[1];
+        }
+
+        // Exit if there's no token
+        if (!token) {
+            console.error("No token found");
+            return;
+        }
+
+        fetch('http://localhost:3000/spaces/', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => setSpaces(data))
             .catch(error => console.error('Erreur:', error));
     }, []);
