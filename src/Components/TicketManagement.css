@@ -1,16 +1,47 @@
-/* Styles pour le conteneur de tous les tickets */
-.TicketManagement {
+
+.create-ticket-form {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
   padding: 20px;
-  gap: 20px; /* Espace entre les tickets */
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+  background-color: #f5f5f5;
+}
+.create-ticket-form input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
 }
 
-/* Styles pour chaque ticket individuel */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.create-ticket-form button {
+  padding: 10px 20px;
+  background-color: #1d3557;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.create-ticket-form button:hover {
+  background-color: #007acc;
+}
+
+/* Styles pour le conteneur de tous les tickets */
+.TicketManagement {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px; /* Espace entre les tickets */
+  justify-content: center;
+  padding: 20px;
+}
+
 .ticket-card {
-  flex: 1 1 300px; /* Chaque ticket aura une largeur initiale de 300px */
-  max-width: 300px; /* Mais ne dépassera jamais 300px */
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -25,6 +56,7 @@
 .ticket-card h2 {
   font-size: 24px;
   margin-bottom: 10px;
+  color: #1d3557;
 }
 
 .ticket-card p {
@@ -46,28 +78,28 @@
   padding: 12px 24px;
   border: none;
   border-radius: 8px;
-  background-color: #8cba51;
-  color: #4b3d29;
-  font-family: "Roboto", sans-serif;
+  background-color: #457b9d;
+  color: #ffffff;
   font-size: 16px;
   font-weight: 500;
   text-align: center;
   text-decoration: none;
   transition: background-color 0.3s ease;
   cursor: pointer;
+  margin-top: 1em; /* Espace au-dessus du bouton */
 }
 
 .ticket-card button:hover {
-  background-color: #709a3a;
+  background-color: #1d3557;
   color: #ffffff;
 }
 
 .ticket-card button:focus {
   outline: none;
-  box-shadow: 0px 0px 8px rgba(140, 186, 81, 0.5);
+
 }
 
 .ticket-card button:active {
-  background-color: #56802c;
+  background-color: #1d3557;
   transform: translateY(1px);
 }

@@ -83,19 +83,20 @@ const TicketManagement: React.FC = () => {
   const saveUpdatedTicket = async (ticketId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/tickets/${ticketId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getToken()}`,
-          },
-          body: JSON.stringify(updatedTicket),
-        }
+          `http://localhost:3000/tickets/${ticketId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${getToken()}`,
+            },
+            body: JSON.stringify(updatedTicket),
+          }
       );
       if (response.ok) {
         alert("Ticket updated successfully");
         fetchTickets();
+        setUpdatedTicket({ ...updatedTicket, _id: "" }); // reset the id of updatedTicket
       } else {
         alert("Error updating ticket");
       }
@@ -103,6 +104,7 @@ const TicketManagement: React.FC = () => {
       console.error("Error updating ticket:", error);
     }
   };
+
 
   const deleteTicket = async (ticketId: string) => {
     try {
@@ -156,58 +158,63 @@ const TicketManagement: React.FC = () => {
   };
 
   return (
-    <div>
+    <div style={{ padding: '2em' }}>
       <h1>Ticket Management</h1>
+
+      <h2>Create a New Ticket</h2>
       <div className="TicketManagement">
-        <h2>Create a New Ticket</h2>
-        <form onSubmit={(e) => e.preventDefault()}>
+
+        <form className="create-ticket-form" onSubmit={(e) => e.preventDefault()}>
           <label>
             Type:
             <input
-              type="text"
-              value={newTicket.type}
-              onChange={(e) =>
-                setNewTicket({ ...newTicket, type: e.target.value })
-              }
+                type="text"
+                value={newTicket.type}
+                onChange={(e) =>
+                    setNewTicket({ ...newTicket, type: e.target.value })
+                }
             />
           </label>
           <label>
             Expiration Date:
             <input
-              type="date"
-              value={newTicket.expirationDate}
-              onChange={(e) =>
-                setNewTicket({ ...newTicket, expirationDate: e.target.value })
-              }
+                type="date"
+                value={newTicket.expirationDate}
+                onChange={(e) =>
+                    setNewTicket({ ...newTicket, expirationDate: e.target.value })
+                }
             />
           </label>
           <label>
             Accessible Spaces (comma-separated):
             <input
-              type="text"
-              value={newTicket.accessibleSpaces}
-              onChange={(e) =>
-                setNewTicket({ ...newTicket, accessibleSpaces: e.target.value })
-              }
+                type="text"
+                value={newTicket.accessibleSpaces}
+                onChange={(e) =>
+                    setNewTicket({ ...newTicket, accessibleSpaces: e.target.value })
+                }
             />
           </label>
           <button onClick={createTicket}>Create Ticket</button>
         </form>
+
       </div>
       <div>
         <h2>All Tickets</h2>
-        {tickets.map((ticket: any) => (
-          <div key={ticket._id} className="ticket-card">
-            <Ticket ticket={ticket} />
-            <button onClick={() => updateTicket(ticket._id)}>Update</button>
-            <button onClick={() => deleteTicket(ticket._id)}>Delete</button>
-            <button onClick={() => purchaseTicket(ticket._id)}>Purchase</button>
-            <div
-              style={{
-                display: ticket._id === updatedTicket._id ? "block" : "none",
-              }}
-            >
-              {/* Form to update ticket */}
+        <div className="TicketManagement">
+          {tickets.map((ticket: any) => (
+              <div key={ticket._id} className="ticket-card">
+                <Ticket ticket={ticket} />
+                <div className="button-container">
+                  <button onClick={() => updateTicket(ticket._id)}>Update</button>
+                  <button onClick={() => deleteTicket(ticket._id)}>Delete</button>
+                  <button onClick={() => purchaseTicket(ticket._id)}>Purchase</button>
+                </div>
+                <div
+                    style={{
+                      display: ticket._id === updatedTicket._id ? "block" : "none",
+                    }}
+                >
               <label>
                 Type:
                 <input
@@ -241,6 +248,7 @@ const TicketManagement: React.FC = () => {
             </div>
           </div>
         ))}
+        </div>
       </div>
     </div>
   );
