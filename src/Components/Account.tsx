@@ -5,6 +5,7 @@ import "./Account.css";
 const Account: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loadedTickets, setLoadedTickets] = useState<any[]>([]);
 
   useEffect(() => {
     // Récupérez le token du cookie
@@ -41,6 +42,23 @@ const Account: React.FC = () => {
       .then((data) => {
         setUser(data);
         console.log("Data received from server:", data); // Add this line to check the data received from the server
+        // Fetch tickets for each ticket ID in the user object
+        const ticketPromises = data.tickets.map((ticketId: string) => {
+          return fetch(`http://localhost:3000/tickets/${ticketId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((response) => response.json())
+            .catch((error) => {
+              console.error("Error fetching ticket:", error);
+              return null;
+            });
+        });
+        return Promise.all(ticketPromises);
+      })
+      .then((tickets) => {
+        setLoadedTickets(tickets.filter((ticket) => ticket !== null));
       })
       .catch((error) => setError(error.message));
   }, []);
@@ -62,7 +80,7 @@ const Account: React.FC = () => {
       </div>
       <div className="ticket-info">
         <h1>Mes billets</h1>
-        {user.tickets.map((ticket, index) => (
+        {loadedTickets.map((ticket, index) => (
           <div key={index} className="ticket">
             <p>ID du billet: {ticket._id}</p>
             <p>Type de billet: {ticket.type}</p>
