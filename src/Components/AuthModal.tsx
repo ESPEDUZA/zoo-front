@@ -29,10 +29,51 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onRequestClose }) => {
                 setError("Les adresses e-mail ne correspondent pas.");
                 return;
             }
+
+            fetch('http://localhost:3000/users/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ login: email.trim(), password: password.trim() })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        if (response.status === 409) {
+                            throw new Error('Un compte avec cet e-mail existe déjà.');
+                        } else {
+                            throw new Error('Une erreur s\'est produite. Veuillez réessayer.');
+                        }
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.cookie = `token=${data.token}; path=/`; // Assurez-vous que le serveur renvoie un token.
+                })
+                .catch(error => setError(error.message));
+        } else if (formType === 'LOGIN') {
+            fetch('http://localhost:3000/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ login: email, password })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            throw new Error('Aucun compte avec cet e-mail n\'a été trouvé.');
+                        } else {
+                            throw new Error('Une erreur s\'est produite. Veuillez réessayer.');
+                        }
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.cookie = `token=${data.token}; path=/`; // Assurez-vous que le serveur renvoie un token.
+                })
+                .catch(error => setError(error.message));
         }
-
-        // Faites quelque chose avec email et password ici...
-
 
         setEmail('');
         setPassword('');
@@ -42,6 +83,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onRequestClose }) => {
 
         onRequestClose();
     };
+
 
     return (
         <Modal

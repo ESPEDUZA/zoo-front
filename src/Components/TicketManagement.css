@@ -1,21 +1,15 @@
-/* Styles généraux pour l'ensemble du site */
-body {
-  font-family: Arial, sans-serif;
-}
-
-/* Styles pour le conteneur de toutes les cartes */
-.ZooSpaces {
+/* Styles pour le conteneur de tous les tickets */
+.TicketManagement {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   padding: 20px;
-  gap: 20px; /* Espace entre les cartes */
+  gap: 20px; /* Espace entre les tickets */
 }
 
-/* Styles pour chaque carte individuelle */
-.panel {
-  flex: 1 1 300px; /* Chaque carte aura une largeur initiale de 300px */
+/* Styles pour chaque ticket individuel */
+.ticket-card {
+  flex: 1 1 300px; /* Chaque ticket aura une largeur initiale de 300px */
   max-width: 300px; /* Mais ne dépassera jamais 300px */
   padding: 20px;
   border: 1px solid #ddd;
@@ -24,36 +18,28 @@ body {
   transition: box-shadow 0.3s ease-in-out;
 }
 
-.panel:hover {
+.ticket-card:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.panel h2 {
+.ticket-card h2 {
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-.panel p {
+.ticket-card p {
   margin-bottom: 10px;
 }
 
-.description {
-  line-height: 1.5;
-  padding-top: 10px;
-  padding-bottom: 30px;
-  font-style: oblique;
-  color: #333333;
-}
-
-.panel img {
-  width: 100%; /* Pour que l'image prenne toute la largeur de la carte */
+.ticket-card img {
+  width: 100%; /* Pour que l'image prenne toute la largeur du ticket */
   height: auto; /* Pour conserver les proportions de l'image */
   object-fit: cover; /* Pour couvrir toute la zone sans déformer l'image */
   border-radius: 5px; /* Pour adoucir les bords de l'image */
   margin-bottom: 10px; /* Pour ajouter un peu d'espace sous l'image */
 }
 
-.detail-button {
+.ticket-card button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,17 +57,17 @@ body {
   cursor: pointer;
 }
 
-.detail-button:hover {
+.ticket-card button:hover {
   background-color: #709a3a;
   color: #ffffff;
 }
 
-.detail-button:focus {
+.ticket-card button:focus {
   outline: none;
   box-shadow: 0px 0px 8px rgba(140, 186, 81, 0.5);
 }
 
-.detail-button:active {
+.ticket-card button:active {
   background-color: #56802c;
   transform: translateY(1px);
 }

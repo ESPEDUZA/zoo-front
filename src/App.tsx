@@ -7,6 +7,8 @@ import ZooSpaces from "./Components/ZooSpaces";
 import SpaceDetail from "./Components/SpaceDetail";
 import AnimalDetail from "./Components/AnimalDetail";
 import About from "./Components/About";
+import Account from "./Components/Account";
+import TicketManagement from "./Components/TicketManagement";
 
 function App() {
   const handleAuthClick = () => {
@@ -22,7 +24,9 @@ function App() {
         <Route path="/spaces" element={<ZooSpaces />} />
         <Route path="/spaces/:id" element={<SpaceDetail />} />
         <Route path="/animals/:id" element={<AnimalDetail />} />
+        <Route path="/Account" element={<Account />} />
         <Route path="/About" element={<About />} />
+        <Route path="/TicketManagement" element={<TicketManagement />} />
       </Routes>
       <Footer />
     </Router>

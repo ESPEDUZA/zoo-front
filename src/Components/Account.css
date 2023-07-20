@@ -1,0 +1,41 @@
+/* style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    margin: 8rem;
+}
+
+.user-info, .ticket-info {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 45%;
+}
+
+.user-info h1, .ticket-info h1 {
+    margin-top: 0;
+}
+
+.user-info p, .ticket-info p {
+    margin: 10px 0;
+}
+
+.ticket {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.ticket:last-child {
+    margin-bottom: 0;
+}
