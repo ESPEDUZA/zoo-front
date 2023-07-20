@@ -23,6 +23,7 @@ const TicketManagement: React.FC = () => {
     expirationDate: "",
     accessibleSpaces: "",
   });
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     fetchTickets();
@@ -155,10 +156,34 @@ const TicketManagement: React.FC = () => {
     return cookieRow ? cookieRow.split("=")[1] : "";
   };
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value);
+  };
+
+  const filteredTickets = tickets.filter((ticket) => {
+    const lowerCaseSearchText = searchText.toLowerCase();
+    const idMatch = ticket._id.toLowerCase().includes(lowerCaseSearchText);
+    const typeMatch = ticket.type.toLowerCase().includes(lowerCaseSearchText);
+    const dateMatch = ticket.expirationDate
+      ? ticket.expirationDate.includes(searchText)
+      : false;
+
+    // Check if accessibleSpaces is a string before calling toLowerCase()
+    const accessibleSpacesMatch =
+      typeof ticket.accessibleSpaces === "string" &&
+      ticket.accessibleSpaces.toLowerCase().includes(lowerCaseSearchText);
+
+    return idMatch || typeMatch || dateMatch || accessibleSpacesMatch;
+  });
+
   return (
     <div>
       <h1>Ticket Management</h1>
       <div className="TicketManagement">
+        <label>
+          Search:
+          <input type="text" value={searchText} onChange={handleSearch} />
+        </label>
         <h2>Create a New Ticket</h2>
         <form onSubmit={(e) => e.preventDefault()}>
           <label>
@@ -196,7 +221,7 @@ const TicketManagement: React.FC = () => {
       </div>
       <div>
         <h2>All Tickets</h2>
-        {tickets.map((ticket: any) => (
+        {filteredTickets.map((ticket: any) => (
           <div key={ticket._id} className="ticket-card">
             <Ticket ticket={ticket} />
             <button onClick={() => updateTicket(ticket._id)}>Update</button>
