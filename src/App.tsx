@@ -9,6 +9,7 @@ import AnimalDetail from "./Components/AnimalDetail";
 import About from "./Components/About";
 import Account from "./Components/Account";
 import TicketManagement from "./Components/TicketManagement";
+import Zoo from "./Components/Zoo";
 
 function App() {
   const handleAuthClick = () => {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/Account" element={<Account />} />
         <Route path="/About" element={<About />} />
         <Route path="/TicketManagement" element={<TicketManagement />} />
+        <Route path="/Zoo" element={<Zoo />} />
       </Routes>
       <Footer />
     </Router>
