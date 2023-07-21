@@ -13,6 +13,7 @@ const Zoo: React.FC = () => {
   });
   const [updatedAnimal, setUpdatedAnimal] = useState<Partial<Animal>>({});
   const [userRole, setUserRole] = useState<string | null>(null);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     fetchAnimals();
@@ -145,9 +146,27 @@ const Zoo: React.FC = () => {
     return cookieRow ? cookieRow.split("=")[1] : "";
   };
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value);
+  };
+
+  const filteredAnimals = animals.filter((animal) => {
+    const lowerCaseSearchText = searchText.toLowerCase();
+    const nameMatch = animal.name.toLowerCase().includes(lowerCaseSearchText);
+    const speciesMatch = animal.species
+      .toLowerCase()
+      .includes(lowerCaseSearchText);
+
+    return nameMatch || speciesMatch;
+  });
+
   return (
     <div>
       <h1>Welcome to the Zoo!</h1>
+      <label>
+        Search by Name or Species:
+        <input type="text" value={searchText} onChange={handleSearch} />
+      </label>
       {userRole === "admin" && (
         <div>
           <h2>Create a New Animal</h2>
@@ -214,7 +233,7 @@ const Zoo: React.FC = () => {
       )}
       <h2>List of Animals and Their Spaces</h2>
       <div className="animal-list">
-        {animals.map((animal) => (
+        {filteredAnimals.map((animal) => (
           <div key={animal._id} className="animal-card">
             <img src={animal.image} alt={animal.name} />
             <h3>{animal.name}</h3>
