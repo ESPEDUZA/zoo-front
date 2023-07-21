@@ -23,6 +23,7 @@ const TicketManagement: React.FC = () => {
     expirationDate: "",
     accessibleSpaces: "",
   });
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     fetchTickets();
@@ -83,15 +84,15 @@ const TicketManagement: React.FC = () => {
   const saveUpdatedTicket = async (ticketId: string) => {
     try {
       const response = await fetch(
-          `http://localhost:3000/tickets/${ticketId}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${getToken()}`,
-            },
-            body: JSON.stringify(updatedTicket),
-          }
+        `http://localhost:3000/tickets/${ticketId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`,
+          },
+          body: JSON.stringify(updatedTicket),
+        }
       );
       if (response.ok) {
         alert("Ticket updated successfully");
@@ -104,7 +105,6 @@ const TicketManagement: React.FC = () => {
       console.error("Error updating ticket:", error);
     }
   };
-
 
   const deleteTicket = async (ticketId: string) => {
     try {
@@ -157,97 +157,123 @@ const TicketManagement: React.FC = () => {
     return cookieRow ? cookieRow.split("=")[1] : "";
   };
 
-  return (
-    <div style={{ padding: '2em' }}>
-      <h1>Ticket Management</h1>
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value);
+  };
 
+  const filteredTickets = tickets.filter((ticket) => {
+    const lowerCaseSearchText = searchText.toLowerCase();
+    const idMatch = ticket._id.toLowerCase().includes(lowerCaseSearchText);
+    const typeMatch = ticket.type.toLowerCase().includes(lowerCaseSearchText);
+    const dateMatch = ticket.expirationDate
+      ? ticket.expirationDate.includes(searchText)
+      : false;
+
+    // Check if accessibleSpaces is a string before calling toLowerCase()
+    const accessibleSpacesMatch =
+      typeof ticket.accessibleSpaces === "string" &&
+      ticket.accessibleSpaces.toLowerCase().includes(lowerCaseSearchText);
+
+    return idMatch || typeMatch || dateMatch || accessibleSpacesMatch;
+  });
+
+  return (
+    <div style={{ padding: "2em" }}>
+      <h1>Ticket Management</h1>
+      <label>
+        Search:
+        <input type="text" value={searchText} onChange={handleSearch} />
+      </label>
       <h2>Create a New Ticket</h2>
       <div className="TicketManagement">
-
-        <form className="create-ticket-form" onSubmit={(e) => e.preventDefault()}>
+        <form
+          className="create-ticket-form"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <label>
             Type:
             <input
-                type="text"
-                value={newTicket.type}
-                onChange={(e) =>
-                    setNewTicket({ ...newTicket, type: e.target.value })
-                }
+              type="text"
+              value={newTicket.type}
+              onChange={(e) =>
+                setNewTicket({ ...newTicket, type: e.target.value })
+              }
             />
           </label>
           <label>
             Expiration Date:
             <input
-                type="date"
-                value={newTicket.expirationDate}
-                onChange={(e) =>
-                    setNewTicket({ ...newTicket, expirationDate: e.target.value })
-                }
+              type="date"
+              value={newTicket.expirationDate}
+              onChange={(e) =>
+                setNewTicket({ ...newTicket, expirationDate: e.target.value })
+              }
             />
           </label>
           <label>
             Accessible Spaces (comma-separated):
             <input
-                type="text"
-                value={newTicket.accessibleSpaces}
-                onChange={(e) =>
-                    setNewTicket({ ...newTicket, accessibleSpaces: e.target.value })
-                }
+              type="text"
+              value={newTicket.accessibleSpaces}
+              onChange={(e) =>
+                setNewTicket({ ...newTicket, accessibleSpaces: e.target.value })
+              }
             />
           </label>
           <button onClick={createTicket}>Create Ticket</button>
         </form>
-
       </div>
       <div>
         <h2>All Tickets</h2>
         <div className="TicketManagement">
-          {tickets.map((ticket: any) => (
-              <div key={ticket._id} className="ticket-card">
-                <Ticket ticket={ticket} />
-                <div className="button-container">
-                  <button onClick={() => updateTicket(ticket._id)}>Update</button>
-                  <button onClick={() => deleteTicket(ticket._id)}>Delete</button>
-                  <button onClick={() => purchaseTicket(ticket._id)}>Purchase</button>
-                </div>
-                <div
-                    style={{
-                      display: ticket._id === updatedTicket._id ? "block" : "none",
-                    }}
-                >
-              <label>
-                Type:
-                <input
-                  type="text"
-                  name="type"
-                  value={updatedTicket.type}
-                  onChange={handleUpdateChange}
-                />
-              </label>
-              <label>
-                Expiration Date:
-                <input
-                  type="date"
-                  name="expirationDate"
-                  value={updatedTicket.expirationDate}
-                  onChange={handleUpdateChange}
-                />
-              </label>
-              <label>
-                Accessible Spaces (comma-separated):
-                <input
-                  type="text"
-                  name="accessibleSpaces"
-                  value={updatedTicket.accessibleSpaces}
-                  onChange={handleUpdateChange}
-                />
-              </label>
-              <button onClick={() => saveUpdatedTicket(ticket._id)}>
-                Save
-              </button>
+          {filteredTickets.map((ticket: any) => (
+            <div key={ticket._id} className="ticket-card">
+              <Ticket ticket={ticket} />
+              <div className="button-container">
+                <button onClick={() => updateTicket(ticket._id)}>Update</button>
+                <button onClick={() => deleteTicket(ticket._id)}>Delete</button>
+                <button onClick={() => purchaseTicket(ticket._id)}>
+                  Purchase
+                </button>
+              </div>
+              <div
+                style={{
+                  display: ticket._id === updatedTicket._id ? "block" : "none",
+                }}
+              >
+                <label>
+                  Type:
+                  <input
+                    type="text"
+                    name="type"
+                    value={updatedTicket.type}
+                    onChange={handleUpdateChange}
+                  />
+                </label>
+                <label>
+                  Expiration Date:
+                  <input
+                    type="date"
+                    name="expirationDate"
+                    value={updatedTicket.expirationDate}
+                    onChange={handleUpdateChange}
+                  />
+                </label>
+                <label>
+                  Accessible Spaces (comma-separated):
+                  <input
+                    type="text"
+                    name="accessibleSpaces"
+                    value={updatedTicket.accessibleSpaces}
+                    onChange={handleUpdateChange}
+                  />
+                </label>
+                <button onClick={() => saveUpdatedTicket(ticket._id)}>
+                  Save
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
         </div>
       </div>
     </div>
