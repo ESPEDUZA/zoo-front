@@ -10,23 +10,25 @@ interface TicketData {
 }
 
 const TicketManagement: React.FC = () => {
-  const [tickets, setTickets] = useState<TicketData[]>([]); // Fix 1: Provide the TicketData[] type
+  const [tickets, setTickets] = useState<TicketData[]>([]);
   const [newTicket, setNewTicket] = useState({
     type: "",
     expirationDate: "",
     accessibleSpaces: "",
   });
   const [updatedTicket, setUpdatedTicket] = useState<TicketData>({
-    // Fix 2: Provide the TicketData type
     _id: "",
     type: "",
     expirationDate: "",
     accessibleSpaces: "",
   });
   const [searchText, setSearchText] = useState("");
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
     fetchTickets();
+    // Fetch the user role from the server
+    fetchUserRole();
   }, []);
 
   const fetchTickets = async () => {
@@ -40,6 +42,22 @@ const TicketManagement: React.FC = () => {
       setTickets(data);
     } catch (error) {
       console.error("Error fetching tickets:", error);
+    }
+  };
+
+  const fetchUserRole = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/users/me", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+      const userData = await response.json();
+      setUserRole(userData.role);
+    } catch (error) {
+      console.error("Error fetching user role:", error);
     }
   };
 
@@ -66,7 +84,6 @@ const TicketManagement: React.FC = () => {
 
   const updateTicket = async (ticketId: string) => {
     try {
-      // Set the updatedTicket state with the values of the selected ticket
       const selectedTicket = tickets.find((ticket) => ticket._id === ticketId);
       if (selectedTicket) {
         setUpdatedTicket({ ...selectedTicket });
@@ -169,7 +186,6 @@ const TicketManagement: React.FC = () => {
       ? ticket.expirationDate.includes(searchText)
       : false;
 
-    // Check if accessibleSpaces is a string before calling toLowerCase()
     const accessibleSpacesMatch =
       typeof ticket.accessibleSpaces === "string" &&
       ticket.accessibleSpaces.toLowerCase().includes(lowerCaseSearchText);
@@ -184,45 +200,50 @@ const TicketManagement: React.FC = () => {
         Search:
         <input type="text" value={searchText} onChange={handleSearch} />
       </label>
-      <h2>Create a New Ticket</h2>
-      <div className="TicketManagement">
-        <form
-          className="create-ticket-form"
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <label>
-            Type:
-            <input
-              type="text"
-              value={newTicket.type}
-              onChange={(e) =>
-                setNewTicket({ ...newTicket, type: e.target.value })
-              }
-            />
-          </label>
-          <label>
-            Expiration Date:
-            <input
-              type="date"
-              value={newTicket.expirationDate}
-              onChange={(e) =>
-                setNewTicket({ ...newTicket, expirationDate: e.target.value })
-              }
-            />
-          </label>
-          <label>
-            Accessible Spaces (comma-separated):
-            <input
-              type="text"
-              value={newTicket.accessibleSpaces}
-              onChange={(e) =>
-                setNewTicket({ ...newTicket, accessibleSpaces: e.target.value })
-              }
-            />
-          </label>
-          <button onClick={createTicket}>Create Ticket</button>
-        </form>
-      </div>
+      {userRole === "admin" && (
+        <div className="TicketManagement">
+          <h2>Create a New Ticket</h2>
+          <form
+            className="create-ticket-form"
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <label>
+              Type:
+              <input
+                type="text"
+                value={newTicket.type}
+                onChange={(e) =>
+                  setNewTicket({ ...newTicket, type: e.target.value })
+                }
+              />
+            </label>
+            <label>
+              Expiration Date:
+              <input
+                type="date"
+                value={newTicket.expirationDate}
+                onChange={(e) =>
+                  setNewTicket({ ...newTicket, expirationDate: e.target.value })
+                }
+              />
+            </label>
+            <label>
+              Accessible Spaces (comma-separated):
+              <input
+                type="text"
+                value={newTicket.accessibleSpaces}
+                onChange={(e) =>
+                  setNewTicket({
+                    ...newTicket,
+                    accessibleSpaces: e.target.value,
+                  })
+                }
+              />
+            </label>
+            <button onClick={createTicket}>Create Ticket</button>
+          </form>
+        </div>
+      )}
       <div>
         <h2>All Tickets</h2>
         <div className="TicketManagement">
@@ -230,8 +251,16 @@ const TicketManagement: React.FC = () => {
             <div key={ticket._id} className="ticket-card">
               <Ticket ticket={ticket} />
               <div className="button-container">
-                <button onClick={() => updateTicket(ticket._id)}>Update</button>
-                <button onClick={() => deleteTicket(ticket._id)}>Delete</button>
+                {userRole === "admin" && (
+                  <>
+                    <button onClick={() => updateTicket(ticket._id)}>
+                      Update
+                    </button>
+                    <button onClick={() => deleteTicket(ticket._id)}>
+                      Delete
+                    </button>
+                  </>
+                )}
                 <button onClick={() => purchaseTicket(ticket._id)}>
                   Purchase
                 </button>
